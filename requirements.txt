@@ -1,4 +1,5 @@
 Django[argon2]==2.0.6
 django-enumfields==0.10.1
+django-environ==0.4.4
 
 python-twitter==3.4.2

@@ -11,21 +11,23 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import environ
+
+env = environ.Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "9+z7)*&@q-7s$&dilq95^ue7=###2b9b3tkh9y7vnfs!evr99e"
+SECRET_KEY = env("SECRET_KEY", default="9+z7)*&@q-7s$&dilq95^ue7=###2b9b3tkh9y7vnfs!evr99e")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 
 # Application definition
@@ -74,26 +76,18 @@ WSGI_APPLICATION = "btsbroke.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": os.path.join(BASE_DIR, "db.sqlite3")}}
+DATABASES = {"default": env.db(default="sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3"))}
 
+# Cache
 
-# Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
-
+CACHES = {"default": env.cache(default="locmemcache://")}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Bangkok"
 
 USE_I18N = True
 
@@ -106,3 +100,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = "/static/"
+TWITTER_CONSUMER_KEY = env("TWITTER_CONSUMER_KEY", default="")
+TWITTER_CONSUMER_SECRET = env("TWITTER_CONSUMER_SECRET", default="")
+TWITTER_ACCESS_TOKEN = env("TWITTER_ACCESS_TOKEN", default="")
+TWITTER_ACCESS_TOKEN_SECRET = env("TWITTER_ACCESS_TOKEN_SECRET", default="")
