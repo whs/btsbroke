@@ -4,3 +4,5 @@ django-environ==0.4.4
 djangorestframework==3.8.2
 
 python-twitter==3.4.2
+whitenoise==3.3.1
+brotlipy==0.7.0

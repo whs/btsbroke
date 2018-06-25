@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -101,6 +102,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = "/static/"
+
+if not DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 TWITTER_CONSUMER_KEY = env("TWITTER_CONSUMER_KEY", default="")
 TWITTER_CONSUMER_SECRET = env("TWITTER_CONSUMER_SECRET", default="")
 TWITTER_ACCESS_TOKEN = env("TWITTER_ACCESS_TOKEN", default="")
