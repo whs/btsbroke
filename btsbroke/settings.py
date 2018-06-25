@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "tweetdb.apps.TweetDBConfig",
+    "btsanalysis.apps.BTSAnalysisConfig",
 ]
 
 MIDDLEWARE = [
