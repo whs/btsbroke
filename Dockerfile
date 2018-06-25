@@ -14,4 +14,4 @@ RUN chmod +x /tini \
 
 USER app
 ENTRYPOINT ["/tini", "--"]
-CMD ["gunicorn", "btsbroke.wsgi"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "btsbroke.wsgi"]
