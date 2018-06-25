@@ -20,7 +20,7 @@ class Command(BaseCommand):
         query = Q()
 
         if last_span:
-            query = Q(created_time__gte=last_span.start)
+            query = Q(created_time__gt=last_span.end or last_span.start)
 
         query = Tweet.objects.filter(query).order_by("created_time")
 
