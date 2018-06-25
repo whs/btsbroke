@@ -83,6 +83,7 @@ DATABASES = {"default": env.db(default="sqlite:///" + os.path.join(BASE_DIR, "db
 # Cache
 
 CACHES = {"default": env.cache(default="locmemcache://")}
+SESSION_ENGINE = env("SESSION_ENGINE", default="django.contrib.sessions.backends.db")
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -102,6 +103,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 if not DEBUG:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
