@@ -1,0 +1,11 @@
+steps:
+- name: gcr.io/cloud-builders/docker
+  args: [build, -t, asia.gcr.io/$PROJECT_ID/btsbroke, .]
+  id: build
+# also tag the image with commit id
+- name: gcr.io/cloud-builders/docker
+  args: [tag, asia.gcr.io/$PROJECT_ID/tmstreamlabs, 'asia.gcr.io/$PROJECT_ID/tmstreamlabs:$SHORT_SHA']
+
+images:
+  - asia.gcr.io/$PROJECT_ID/btsbroke
+  - asia.gcr.io/$PROJECT_ID/btsbroke:$SHORT_SHA
