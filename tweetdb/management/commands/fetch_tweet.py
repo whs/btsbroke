@@ -1,7 +1,9 @@
+import time
 import datetime
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.core.cache import cache
 import twitter
 
 from tweetdb.models import Tweet
@@ -58,7 +60,7 @@ class Command(BaseCommand):
                     continue
 
                 created = datetime.datetime.fromtimestamp(item.created_at_in_seconds, tz=datetime.timezone.utc)
-                tweets.append(Tweet(id=item.id, created_time=created, message=item.full_text))
+                tweets.append(Tweet(id=item.id, created_time=created, message=item.full_text, user="BTS_SkyTrain"))
 
                 max_id = item.id
                 last_id = None
@@ -71,3 +73,5 @@ class Command(BaseCommand):
         self.stdout.write(f"Pushing {len(tweets)} items to database")
         Tweet.objects.bulk_create(tweets)
         self.stdout.write(self.style.SUCCESS(f"Finished"))
+
+        cache.set("tweetdb:last_update", time.time())
