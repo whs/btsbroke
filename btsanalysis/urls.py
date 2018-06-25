@@ -10,7 +10,7 @@ urlpatterns = [
 urlpatterns += format_suffix_patterns(
     [
         re_path(r"^current_status$", api_views.CurrentStatusApi.as_view(), name="current_status_api"),
-        # re_path(r"^spans$", name="span_api"),
+        re_path(r"^spans$", api_views.SpanApi.as_view(), name="span_api"),
     ],
     suffix_required=True,
 )

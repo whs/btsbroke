@@ -1,8 +1,10 @@
 import datetime
 
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.serializers import DateTimeField
+from rest_framework.pagination import LimitOffsetPagination
 from django.core.cache import cache
 
 from . import models, serializers
@@ -24,3 +26,14 @@ class CurrentStatusApi(APIView):
                 "last_updated": last_updated,
             }
         )
+
+
+class SpanPagination(LimitOffsetPagination):
+    default_limit = 20
+    max_limit = 100
+
+
+class SpanApi(ListAPIView):
+    queryset = models.Downtime.objects.all().order_by("-id")
+    serializer_class = serializers.DowntimeSerializer
+    pagination_class = SpanPagination

@@ -6,9 +6,11 @@ from tweetdb.models import Tweet
 
 
 class TweetSerializer(serializers.ModelSerializer):
+    url = serializers.URLField(source="get_absolute_url")
+
     class Meta:
         model = Tweet
-        fields = ("user", "created_time", "message", "get_absolute_url")
+        fields = ("user", "created_time", "message", "url")
 
 
 class DowntimeSerializer(EnumSupportSerializerMixin, serializers.ModelSerializer):
