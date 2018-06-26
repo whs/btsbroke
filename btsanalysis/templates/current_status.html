@@ -6,12 +6,12 @@
 	<h1>
 		{{span.get_latest_status.as_human_string}}
 	</h1>
-	{% if span.get_latest_status != 1 %}
+	{% if span.get_latest_status.value != 1 %}
 	<p class="breakdown_since">ตั้งแต่ <time datetime="{{span.start|date:"c"}}">{{span.start|naturaltime}}</time></p>
 	{% endif %}
 </div>
 
-{% if span.get_latest_status != 1 %}
+{% if span.get_latest_status.value != 1 %}
 <div class="mb-4 d-flex justify-content-center">
 	<blockquote class="twitter-tweet" data-lang="th">
 		<a href="{{span.tweet_start.get_absolute_url}}">@BTS_SkyTrain</a>
