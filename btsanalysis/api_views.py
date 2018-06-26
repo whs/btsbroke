@@ -1,16 +1,21 @@
 import datetime
 
+from rest_framework import renderers
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.serializers import DateTimeField
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.schemas import get_schema_view
 from django.core.cache import cache
+from openapi_codec import OpenAPICodec
 
 from . import models, serializers
 
 
 class CurrentStatusApi(APIView):
+    """Get current breakdown status"""
+
     def get(self, request, **kwargs):
         last_span = models.Downtime.objects.order_by("-start").first()
         last_updated = cache.get("tweetdb:last_update")
@@ -34,6 +39,22 @@ class SpanPagination(LimitOffsetPagination):
 
 
 class SpanApi(ListAPIView):
+    """List breakdown spans"""
+
     queryset = models.Downtime.objects.all().order_by("-id")
     serializer_class = serializers.DowntimeSerializer
     pagination_class = SpanPagination
+
+
+class SwaggerRenderer(renderers.BaseRenderer):
+    media_type = "application/openapi+json"
+    format = "swagger"
+
+    def render(self, data, media_type=None, renderer_context=None):
+        codec = OpenAPICodec()
+        return codec.dump(data)
+
+
+schema = get_schema_view(
+    title="When did BTS broke last?", renderer_classes=[SwaggerRenderer, renderers.CoreJSONRenderer]
+)

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "tweetdb.apps.TweetDBConfig",
     "btsanalysis.apps.BTSAnalysisConfig",
 ]
@@ -107,6 +108,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 if not DEBUG:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+SWAGGER_SETTINGS = {"USE_SESSION_AUTH": False}
 
 TWITTER_CONSUMER_KEY = env("TWITTER_CONSUMER_KEY", default="")
 TWITTER_CONSUMER_SECRET = env("TWITTER_CONSUMER_SECRET", default="")

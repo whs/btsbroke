@@ -1,6 +1,7 @@
 # When did BTS broke last?
 
-Homepage: https://bts.cupco.de
+* Homepage: https://bts.cupco.de
+* API Docs: https://bts.cupco.de/schema.json
 
 ## Install
 
