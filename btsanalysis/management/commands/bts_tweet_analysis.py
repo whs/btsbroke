@@ -15,8 +15,15 @@ BREAKDOWN_REGEX = re.compile(r"ขัดข้อง")
 class Command(BaseCommand):
     help = "Analyse tweet for BTS breakdown"
 
+    def add_arguments(self, parser):
+        parser.add_argument("--wipe", help="Wipe old data", action="store_true")
+
     def handle(self, *args, **options):
-        last_span = Downtime.objects.order_by("-start").first()
+        if options["wipe"]:
+            last_span = None
+        else:
+            last_span = Downtime.objects.order_by("-start").first()
+
         query = Q()
 
         if last_span:
@@ -27,6 +34,10 @@ class Command(BaseCommand):
         self.stdout.write(f"Loaded a span: {last_span}")
 
         with transaction.atomic():
+            if options["wipe"]:
+                self.stdout.write(self.style.ERROR("Wiping spans"))
+                Downtime.objects.all().delete()
+
             for item in query:
                 tweet_type = self.analyze(item)
                 if tweet_type is None:
