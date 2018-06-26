@@ -68,9 +68,11 @@ class Command(BaseCommand):
                     with transaction.atomic():
                         # Use nested transaction to not abort transaction on error
                         try:
-                            Tweet(id=item.id, created_time=created, message=item.full_text, user="BTS_SkyTrain").save()
+                            Tweet(id=item.id, created_time=created, message=item.full_text, user="BTS_SkyTrain").save(
+                                force_insert=True
+                            )
                         except IntegrityError as e:
-                            self.stdout.write(self.style.ERROR(f"Error adding {self.id}: {repr(e)}"))
+                            self.stdout.write(self.style.ERROR(f"Error adding {item.id}: {repr(e)}"))
                             break
 
                     processed += 1
