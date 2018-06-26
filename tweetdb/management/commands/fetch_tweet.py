@@ -17,9 +17,7 @@ class Command(BaseCommand):
         assert settings.TWITTER_CONSUMER_KEY, "TWITTER_CONSUMER_KEY must be set"
         assert settings.TWITTER_CONSUMER_SECRET, "TWITTER_CONSUMER_SECRET must be set"
         assert settings.TWITTER_ACCESS_TOKEN, "TWITTER_ACCESS_TOKEN must be set"
-        assert (
-            settings.TWITTER_ACCESS_TOKEN_SECRET
-        ), "TWITTER_ACCESS_TOKEN_SECRET must be set"
+        assert settings.TWITTER_ACCESS_TOKEN_SECRET, "TWITTER_ACCESS_TOKEN_SECRET must be set"
 
         client = twitter.Api(
             consumer_key=settings.TWITTER_CONSUMER_KEY,
@@ -33,7 +31,6 @@ class Command(BaseCommand):
         last_id = Tweet.objects.only("id").order_by("-created_time").first()
         last_id = last_id.id if last_id else None
         max_id = None
-        tweets = []
         found_id = set()
 
         with transaction.atomic():
@@ -63,19 +60,12 @@ class Command(BaseCommand):
                     if item.id in found_id:
                         continue
 
-                    created = datetime.datetime.fromtimestamp(
-                        item.created_at_in_seconds, tz=datetime.timezone.utc
-                    )
+                    created = datetime.datetime.fromtimestamp(item.created_at_in_seconds, tz=datetime.timezone.utc)
                     with transaction.atomic():
                         # Use savepoint to indicate that we don't care
                         # about errors
                         try:
-                            Tweet(
-                                id=item.id,
-                                created_time=created,
-                                message=item.full_text,
-                                user="BTS_SkyTrain",
-                            ).save()
+                            Tweet(id=item.id, created_time=created, message=item.full_text, user="BTS_SkyTrain").save()
                         except IntegrityError:
                             pass
 
