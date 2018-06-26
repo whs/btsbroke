@@ -99,6 +99,21 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "root": {"level": "WARNING", "handlers": ["gunicorn"]},
+    "formatters": {"verbose": {"format": "%(levelname)s %(asctime)s %(name)s %(message)s"}},
+    "handlers": {"gunicorn": {"level": "DEBUG", "class": "logging.StreamHandler", "formatter": "verbose"}},
+    "loggers": {
+        "django": {"handlers": ["gunicorn"], "level": env("DJANGO_LOG_LEVEL", default="INFO" if DEBUG else "WARNING")},
+        "gunicorn.errors": {"level": "ERROR", "handlers": ["gunicorn"], "propagate": True},
+        "django.security.DisallowedHost": {"level": "ERROR", "handlers": ["gunicorn"], "propagate": False},
+    },
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
