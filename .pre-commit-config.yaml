@@ -1,4 +1,4 @@
-exclude: migrations
+exclude: migrations|classifier
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks.git
   sha: v1.3.0

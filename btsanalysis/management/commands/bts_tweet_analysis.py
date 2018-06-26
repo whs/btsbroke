@@ -1,15 +1,12 @@
-import re
-
 from django.core.management.base import BaseCommand
 from django.db.models import Q
 from django.db import transaction
 
 from tweetdb.models import Tweet
 from btsanalysis.models import Downtime, Status
+from classifier import bts_classifier
 
-NORMAL_REGEX = re.compile(r"ปกติ")
-DELAYED_REGEX = re.compile(r"ล่าช้า")
-BREAKDOWN_REGEX = re.compile(r"ขัดข้อง")
+CLASSIFIER_MAP = {None: None, "normal": Status.NORMAL, "disrupted": Status.BREAKDOWN, "delay": Status.DELAYED}
 
 
 class Command(BaseCommand):
@@ -69,12 +66,5 @@ class Command(BaseCommand):
                     last_span = new_span
 
     def analyze(self, item):
-        if BREAKDOWN_REGEX.search(item.message):
-            # ระบบอาณัติสัญญาณในสายสีลมและสายสุขุมวิทขัดข้อง  กำลังทำการแก้ไข ขบวนรถจะล่าช้า 10 นาที ขออภัยในความไม่สะดวก
-            return Status.BREAKDOWN
-        elif DELAYED_REGEX.search(item.message):
-            return Status.DELAYED
-        elif NORMAL_REGEX.search(item.message):
-            return Status.NORMAL
-
-        return None
+        result = bts_classifier.classify(item.message)
+        return CLASSIFIER_MAP[result]
