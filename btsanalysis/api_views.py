@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import DateTimeField
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.schemas import get_schema_view
+from enumfields.drf.fields import EnumField
 from django.core.cache import cache
 from openapi_codec import OpenAPICodec
 
@@ -25,8 +26,7 @@ class CurrentStatusApi(APIView):
 
         return Response(
             {
-                "status": last_span.get_latest_status().name,
-                "status_id": last_span.get_latest_status().value,
+                "status": EnumField(models.Status, ints_as_names=True).to_representation(last_span.get_latest_status()),
                 "last_span": serializers.DowntimeSerializer(last_span).data,
                 "last_updated": last_updated,
             }

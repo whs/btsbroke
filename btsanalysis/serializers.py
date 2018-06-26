@@ -17,6 +17,8 @@ class DowntimeSerializer(EnumSupportSerializerMixin, serializers.ModelSerializer
     tweet_start = TweetSerializer()
     tweet_end = TweetSerializer()
 
+    enumfield_options = {"ints_as_names": True}
+
     class Meta:
         model = models.Downtime
         fields = ("status", "tweet_start", "tweet_end", "start", "end")
