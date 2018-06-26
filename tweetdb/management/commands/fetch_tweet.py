@@ -61,19 +61,21 @@ class Command(BaseCommand):
                         continue
 
                     created = datetime.datetime.fromtimestamp(item.created_at_in_seconds, tz=datetime.timezone.utc)
-                    with transaction.atomic():
-                        # Use savepoint to indicate that we don't care
-                        # about errors
-                        try:
-                            Tweet(id=item.id, created_time=created, message=item.full_text, user="BTS_SkyTrain").save()
-                        except IntegrityError:
-                            pass
-
                     max_id = item.id
                     last_id = None
                     found_id.add(item.id)
+
+                    with transaction.atomic():
+                        # Use nested transaction to not abort transaction on error
+                        try:
+                            Tweet(id=item.id, created_time=created, message=item.full_text, user="BTS_SkyTrain").save()
+                        except IntegrityError as e:
+                            self.stdout.write(self.style.ERROR(f"Error adding {self.id}: {repr(e)}"))
+                            break
+
                     processed += 1
 
+                self.stdout.write(self.style.SUCCESS(f"Added {processed} tweets"))
                 if processed == 0:
                     break
 
