@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block body %}
+<div class="jumbotron text-center mt-4 {{span.get_latest_status.as_bootstrap_class}}">
+	<p class="status_is">BTS ตอนนี้</p>
+	<h1>
+		{{span.get_latest_status.as_human_string}}
+	</h1>
+	{% if span.get_latest_status != 0 %}
+	<p class="breakdown_since">ตั้งแต่ <time datetime="{{span.start|date:"c"}}">{{span.start|naturaltime}}</time></p>
+	{% endif %}
+</div>
+
+{% if span.get_latest_status != 0 %}
+<div class="mb-4 d-flex justify-content-center">
+	<blockquote class="twitter-tweet" data-lang="th">
+		<a href="{{span.tweet_start.get_absolute_url}}">@BTS_SkyTrain</a>
+		<p>{{span.tweet_start.message}}</p>
+	</blockquote>
+</div>
+{% endif %}
+
+<div class="text-muted text-center metadata">
+	<div>อัพเดตล่าสุด <time datetime="{{last_updated|date:"c"}}">{{last_updated|naturaltime}}</time></div>
+	<div class="mt-2">a <a href="https://cupco.de" target="_blank" rel="noopener">cupco&middot;de</a> product &middot; model by @<a href="https://github.com/srakrn/BTS-text-classifier">srakrn</a> &middot; <a href="https://github.com/whs/btsbroke">GitHub</a> &middot; <a href="{% url 'bts:schema' %}">API</a></div>
+</div>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}

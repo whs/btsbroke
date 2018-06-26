@@ -1,11 +1,11 @@
 from django.urls import re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from . import api_views
+from . import api_views, views
 
 urlpatterns = [
-    # path("current_status", name="current_status"),
-    re_path(r"^schema$", api_views.schema, name="schema")
+    re_path("^$", views.CurrentStatus.as_view(), name="current_status"),
+    re_path(r"^schema$", api_views.schema, name="schema"),
 ]
 
 urlpatterns += format_suffix_patterns(

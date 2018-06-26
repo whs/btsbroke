@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",
     "rest_framework",
     "tweetdb.apps.TweetDBConfig",
     "btsanalysis.apps.BTSAnalysisConfig",
@@ -89,7 +90,7 @@ SESSION_ENGINE = env("SESSION_ENGINE", default="django.contrib.sessions.backends
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "th"
 
 TIME_ZONE = "Asia/Bangkok"
 

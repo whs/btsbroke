@@ -10,6 +10,14 @@ class Status(Enum):
     DELAYED = 2
     BREAKDOWN = 3
 
+    def as_human_string(self):
+        string_map = {Status.NORMAL: "ปกติ", Status.DELAYED: "ล่าช้า", Status.BREAKDOWN: "เสีย"}
+        return string_map[self]
+
+    def as_bootstrap_class(self):
+        string_map = {Status.NORMAL: "bg-success", Status.DELAYED: "bg-warning", Status.BREAKDOWN: "bg-danger"}
+        return string_map[self]
+
 
 def validate_not_normal(value):
     if value is Status.NORMAL:
