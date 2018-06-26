@@ -10,7 +10,7 @@ RUN chmod +x /tini \
 	&& chown -R app /app \
 	&& pip install --no-cache-dir -r requirements.txt \
 	&& pip install --no-cache-dir hiredis mysqlclient django_redis gunicorn \
-	&& python manage.py collectstatic --no-input --link
+	&& DEBUG=off python manage.py collectstatic --no-input --link
 
 USER app
 ENTRYPOINT ["/tini", "--"]
