@@ -7,6 +7,38 @@
   color: #777;
 }
 
-.metadata {
+.metadata,
+.disclaimer {
   font-size: 0.7em;
+}
+
+.span_display {
+  background-color: var(--success);
+  height: 32px;
+  width: 100%;
+  position: relative;
+}
+
+.span_dates {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+}
+
+.span {
+  position: absolute;
+  height: 100%;
+}
+
+.sla {
+  width: 100%;
+  height: 32px;
+  line-height: 32px;
+  color: white;
+  text-shadow: #222 0px 1px 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
 }

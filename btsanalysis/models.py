@@ -2,6 +2,7 @@ from enum import Enum
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from enumfields import EnumIntegerField
 
 
@@ -37,6 +38,10 @@ class Downtime(models.Model):
             return Status.NORMAL
         else:
             return self.status
+
+    def get_duration(self):
+        target = self.end or timezone.now()
+        return (target - self.start).total_seconds()
 
     def __str__(self):
         return f"{self.status.name} from {self.start} - {self.end}"

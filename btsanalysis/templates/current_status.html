@@ -11,6 +11,24 @@
 	{% endif %}
 </div>
 
+<div class="span_container mb-4">
+	<h5 class="text-center">30 วันที่ผ่านมา</h5>
+
+	<div class="span_display">
+		<div class="sla">{{sla|floatformat:2}}%</div>
+		{% for item in previous_spans %}
+		<a href="{{item.tweet_start.get_absolute_url}}" class="span {{item.status.as_bootstrap_class}}" style="left: {{item.display_left}}%; width: {{item.display_width}}%;" title="{% spaceless %}
+			{{item.start|date:"DATETIME_FORMAT"}} - {% if item.end %}{{item.end|date:"DATETIME_FORMAT"}}{% else %}ตอนนี้{% endif %}
+		{% endspaceless %}"></a>
+		{% endfor %}
+	</div>
+	<div class="span_dates">
+		<div>{{previous_start|date}}</div>
+		<div>วันนี้</div>
+	</div>
+	<div class="text-center text-muted disclaimer">⚠️ คำนวณโดยระบบอัตโนมัติ อาจตรวจจับข้อความไม่ถูกต้อง</div>
+</div>
+
 {% if span.get_latest_status.value != 1 %}
 <div class="mb-4 d-flex justify-content-center">
 	<blockquote class="twitter-tweet" data-lang="th">
