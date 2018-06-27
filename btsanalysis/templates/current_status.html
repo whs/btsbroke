@@ -19,7 +19,8 @@
 		{% for item in previous_spans %}
 		<a href="{{item.tweet_start.get_absolute_url}}" class="span {{item.status.as_bootstrap_class}}" style="left: {{item.display_left}}%; width: {{item.display_width}}%;" title="{% spaceless %}
 			{{item.start|date:"DATETIME_FORMAT"}} - {% if item.end %}{{item.end|date:"DATETIME_FORMAT"}}{% else %}ตอนนี้{% endif %}
-		{% endspaceless %}"></a>
+		{% endspaceless %}
+		{{item.tweet_start.message}}"></a>
 		{% endfor %}
 	</div>
 	<div class="span_dates">

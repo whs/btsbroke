@@ -48,6 +48,8 @@ class CurrentStatus(TemplateView):
         # BTS operation time is from 6-24, so 6 hours per day are free
         working -= 30 * 6 * 60 * 60
 
+        full_sla = working
+
         for item in spans:
             loss = item.get_duration()
             # If this item is before the start of range, then return the credit back
@@ -55,4 +57,4 @@ class CurrentStatus(TemplateView):
             loss += before_start
             working -= loss
 
-        return (working / SECONDS_IN_MONTH) * 100
+        return (working / full_sla) * 100
