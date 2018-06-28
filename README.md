@@ -25,3 +25,8 @@ Run these with `python manage.py`
 * `runserver`: Start the development web server
 * `fetch_tweet`: Update tweet database
 * `bts_tweet_analysis`: Perform analysis on stored tweets
+
+## Credits
+
+* Data: @[BTS_SkyTrain](https://twitter.com/BTS_SkyTrain)
+* Analyzer: @[srakrn](https://github.com/srakrn/BTS-text-classifier)
