@@ -15,7 +15,6 @@ def word_count(text):
 def classify(text):
     labels = [None, 'normal', 'delay', 'disrupted']
     x = [word_count(text)]
-    clf = pickle.load(open('model.pkl', 'rb'))
     
     with MODEL_FILE.open('rb') as fp:
         clf = pickle.load(fp)
